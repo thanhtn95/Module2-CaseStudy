@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+</head>
+<style>
+    fieldset {
+        align-content: center;
+        width: fit-content;
+        height: fit-content;
+        margin-top: 30px;
+        margin-bottom: 40px;
+        margin-left: 30px;
+    }
+
+    legend {
+        margin-bottom: 20px;
+    }
+
+
+    table {
+        margin: auto;
+        border: 2px solid black;
+        margin-left: 30px;
+    }
+
+    .notfirstTr:hover {
+        color: red;
+        background-color: darkgray;
+        cursor: pointer;
+    }
+
+    .notfirstTr {
+        border: 2px double black;
+        margin: auto;
+        padding: 15px;
+    }
+
+    tr {
+        border: 2px solid black;
+        margin: auto;
+        padding: 15px;
+    }
+
+    td {
+        margin: auto;
+        border: 2px solid black;
+        text-align: center;
+        padding: 15px;
+        font-weight: bolder;
+    }
+    body {
+        background-image: url("/image/Savin-NY-Website-Background-Web.jpg");
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+    }
+</style>
+<body>
+<fieldset style="width: fit-content;height: fit-content">
+    <p><a th:href="@{/supplier/supplierList}">
+        <button type="button">Go to Supplier List</button>
+    </a></p>
+    <p><a th:href="@{newMaterial}">
+        <button type="button">Add New Material</button>
+    </a></p>
+    <p>Search by Supplier:&nbsp;
+    <form onchange="this.submit()" th:action="@{searchBySupplier}">
+        <select name="supplierSearch">
+            <option value=-1> </option>
+            <option th:each="s:${suppliers}" th:value="${s.getId()}" th:text="${s.getName()}" th:selected="(${s.getId()} == ${supplierSearch})"></option>
+        </select>
+    </form>
+    </p>
+    <p>Sort by Price:&nbsp;
+    <form onchange="this.submit()" th:action="@{sortByPrice}">
+        <select name="sortDirection">
+            <option value="no"> </option>
+            <option value="asc" th:selected="(${sortDirection} == 'asc')">ASC</option>
+            <option value="desc" th:selected="(${sortDirection} == 'desc')">DESC</option>
+        </select>
+    </form>
+    </p>
+</fieldset>
+<fieldset style="height: fit-content;width: fit-content;">
+    <legend style="text-shadow: 2px 2px 6px blueviolet"><h2 style="color: blueviolet">Material List</h2></legend>
+    <table>
+        <tr>
+            <td>ID</td>
+            <td>Code</td>
+            <td>Material Name</td>
+            <td>Import Date</td>
+            <td>Description</td>
+            <td>Price</td>
+            <td>Quantity</td>
+            <td>Supplier</td>
+            <td>Material Image</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr class="notfirstTr" th:each="ma: ${materials}">
+            <td th:text="${ma.getId()}"></td>
+            <td th:text="${ma.getCode()}"></td>
+            <td><a th:href="@{__${ma.getId()}__/viewMaterial}" th:text="${ma.getName()}"></a></td>
+            <td th:text="${ma.getImportDate()}"></td>
+            <td th:text="${ma.getDescription()}"></td>
+            <td th:text="${ma.getPrice()}"></td>
+            <td th:text="${ma.getQuantity()}"></td>
+            <td th:text="${ma.getSupplier().getName()}"></td>
+            <td><a th:href="@{'/image/'+${ma.getImage()}}" target="_blank"><img style="width: 160px; height: 100px"
+                                                                                th:src="@{'/image/'+${ma.getImage()}}"></a>
+            </td>
+            <td><a th:href="@{__${ma.getId()}__/editMaterial}">
+                <button type="button">Update</button>
+            </a></td>
+            <td><a th:href="@{__${ma.getId()}__/deleteMaterial}" onclick="return confirm('Are You Sure?')">
+                <button type="button">Delete</button>
+            </a></td>
+        </tr>
+    </table>
+    <div style="margin-top: 15px" th:if="!${sortDirection}and!${supplierSearch}">
+        <a th:href="@{''(page=${materials.number - 1})}" th:if="${materials.hasPrevious()}">Previous</a>
+        <span th:text="${materials.number + 1}"></span>/<span th:text="${materials.totalPages}"></span>
+        <a th:href="@{''(page=${materials.number + 1})}" th:if="${materials.hasNext()}">Next</a>
+    </div>
+    <div style="margin-top: 15px" th:if="${sortDirection}">
+        <a th:href="@{''(sortDirection=${sortDirection},page=${materials.number - 1})}" th:if="${materials.hasPrevious()}">Previous</a>
+        <span th:text="${materials.number + 1}"></span>/<span th:text="${materials.totalPages}"></span>
+        <a th:href="@{''(sortDirection=${sortDirection},page=${materials.number + 1})}" th:if="${materials.hasNext()}">Next</a>
+    </div>
+    <div style="margin-top: 15px" th:if="${supplierSearch}">
+        <a th:href="@{''(supplierSearch=${supplierSearch},page=${materials.number - 1})}" th:if="${materials.hasPrevious()}">Previous</a>
+        <span th:text="${materials.number + 1}"></span>/<span th:text="${materials.totalPages}"></span>
+        <a th:href="@{''(supplierSearch=${supplierSearch},page=${materials.number + 1})}" th:if="${materials.hasNext()}">Next</a>
+    </div>
+</fieldset>
+</body>
+</html>

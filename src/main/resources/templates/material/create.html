@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+</head>
+<style>
+    fieldset{
+        width: fit-content;
+        margin: auto;
+        margin-top: 50px ;
+        height: fit-content;
+    }
+    p{
+        margin-bottom: 30px;
+    }
+    body {
+        background-image: url("/image/Savin-NY-Website-Background-Web.jpg");
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+    }
+</style>
+<body>
+<fieldset style="width: fit-content;height: fit-content">
+    <legend style="text-shadow: 2px 2px 6px crimson"><h2 style="color: crimson">New Material Entry</h2></legend>
+    <form th:object="${materialForm}" method="post" th:action="@{newMaterial}" enctype="multipart/form-data">
+        <p>Code:&nbsp;<input th:field="*{code}"></p>
+        <p>Name:&nbsp;<input th:field="*{name}"></p>
+        <p>Import Date:<input type="date" th:field="*{importDate}"></p>
+        <p>Description:&nbsp;<textarea th:field="*{description}"></textarea></p>
+        <p>Price:&nbsp;<input th:field="*{price}"></p>
+        <p>Quantity:&nbsp;<input th:field="*{quantity}"></p>
+        <p>Supplier:&nbsp;
+            <select th:field="*{supplier}">
+                <option th:each="s:${suppliers}" th:text="${s.getName()}" th:value="${s.getId()}"></option>
+            </select>
+        </p>
+        <p>Material Image:&nbsp;<input type="file" th:field="*{image}" th:value="va"></p>
+        <p><button type="submit" onclick="return confirm('Are You Sure?')">Add New</button> </p>
+    </form>
+    <p><a th:href="@{/material/materialList}"><button type="button">Back</button></a></p>
+</fieldset>
+</body>
+</html>

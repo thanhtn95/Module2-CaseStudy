@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<fieldset style="width: fit-content;height: fit-content">
+    <legend><h2 style="color: darkblue"> Material Info</h2></legend>
+    <form th:object="${material}">
+        <p>ID:&nbsp;<input readonly th:field="*{id}"></p>
+        <p>Code:&nbsp;<input readonly th:field="*{code}"></p>
+        <p>Name:&nbsp;<input readonly th:field="*{name}"></p>
+        <p>Import Date:<input readonly type="date" th:field="*{importDate}"></p>
+        <p>Description:&nbsp;<textarea readonly th:field="*{description}"></textarea></p>
+        <p>Price:&nbsp;<input readonly th:field="*{price}"></p>
+        <p>Quantity:&nbsp;<input readonly th:field="*{quantity}"></p>
+        <p>Supplier:&nbsp;<input readonly th:value="${material.getSupplier().getName()}"></p>
+        <p>Material Image:<br><a th:href="@{'/image/'+${material.getImage()}}" target="_blank"><img style="width: 300px; height: 180px" th:src="@{'/image/'+${material.getImage()}}"></a></p>
+    </form>
+</fieldset>
+<p><a th:href="@{/material/materialList}"><button type="button">Back</button></a></p>
+</body>
+</html>

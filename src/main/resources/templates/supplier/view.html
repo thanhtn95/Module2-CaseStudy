@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<fieldset style="height: fit-content; width: fit-content">
+<legend><h2 style="color:darkblue;">Supplier Info</h2></h></legend>
+    <form th:object="${supplier}">
+        <p>Name:&nbsp;<input readonly th:field="*{name}"></p>
+        <p>Description:&nbsp;<textarea readonly th:field="*{description}"></textarea></p>
+    </form>
+</fieldset>
+<p><a th:href="@{/supplier/supplierList}"><button type="button">Back</button></a></p>
+</body>
+</html>
