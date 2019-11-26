@@ -3,10 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
 </head>
+<style>
+    fieldset{
+        width: fit-content;
+        margin: auto;
+        margin-top: 50px ;
+        height: fit-content;
+    }
+    p{
+        margin-bottom: 30px;
+    }
+    body {
+        background-image: url("/image/Savin-NY-Website-Background-Web.jpg");
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+    }
+</style>
 <body>
 <fieldset style="width: fit-content;height: fit-content">
-    <legend><h2 style="color: darkblue"> Material Info</h2></legend>
+    <legend style="text-shadow: 2px 2px 6px darkblue"><h2 style="color: darkblue"> Material Info</h2></legend>
     <form th:object="${material}">
         <p>ID:&nbsp;<input readonly th:field="*{id}"></p>
         <p>Code:&nbsp;<input readonly th:field="*{code}"></p>
@@ -18,7 +40,7 @@
         <p>Supplier:&nbsp;<input readonly th:value="${material.getSupplier().getName()}"></p>
         <p>Material Image:<br><a th:href="@{'/image/'+${material.getImage()}}" target="_blank"><img style="width: 300px; height: 180px" th:src="@{'/image/'+${material.getImage()}}"></a></p>
     </form>
+    <p><a th:href="@{/material/materialList}"><button type="button">Back</button></a></p>
 </fieldset>
-<p><a th:href="@{/material/materialList}"><button type="button">Back</button></a></p>
 </body>
 </html>

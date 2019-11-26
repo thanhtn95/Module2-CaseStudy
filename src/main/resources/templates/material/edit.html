@@ -28,7 +28,7 @@
 </style>
 <body>
 <fieldset style="width: fit-content;height: fit-content">
-    <legend style="text-shadow: 2px 2px 6px crimson"><h2 style="color: crimson">New Material Entry</h2></legend>
+    <legend style="text-shadow: 2px 2px 6px crimson"><h2 style="color: crimson">Update Material Entry</h2></legend>
     <form th:object="${materialForm}" method="post" th:action="@{/material/UpdateMaterial}" enctype="multipart/form-data">
         <input hidden th:field="*{id}">
         <p>Code:&nbsp;<input th:field="*{code}"></p>
@@ -51,9 +51,9 @@
             <button type="submit" onclick="return confirm('Are You Sure?')">Update</button>
         </p>
     </form>
+    <p><a th:href="@{/material/materialList}">
+        <button type="button">Back</button>
+    </a></p>
 </fieldset>
-<p><a th:href="@{/material/materialList}">
-    <button type="button">Back</button>
-</a></p>
 </body>
 </html>
